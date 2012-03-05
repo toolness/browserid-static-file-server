@@ -74,7 +74,7 @@ suite
       .get()
       .expect(200)
       .unpath()
-    .path('/meh')
+    .path('/nonexistent')
       .get()
       .expect(404)
       .expect("body is 'Not Found'", function(err, req) {
@@ -99,6 +99,9 @@ suite
       .unpath()
     .path('/another-example-only/bar.html')
       .get()
-      .expect(403);
+      .expect(403)
+    .path('/another-example-only/nonexistent')
+      .get()
+      .expect(404);
 
 suite.export(module);
