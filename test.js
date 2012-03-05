@@ -66,6 +66,10 @@ suite
         assert.equal(req.body, "this is foo");
       })
       .unpath()
+    .path('/example-only/nonexistent.html')
+      .get()
+      .expect(404)
+      .unpath()
     .path('/nonexistent-directory/bar.html')
       .get()
       .expect(403)
