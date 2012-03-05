@@ -1,23 +1,23 @@
 const FORBIDDEN_HTML = 'Permission denied! Try <a href="/login/">logging in</a>.';
-const COOKIE_SECRET = "lolwut";
 
 var express = require('express'),
     path = require('path'),
     browserid = require('./browserid.js'),
-    fs = require('fs');
+    fs = require('fs'),
+    config = require('./config.js');
 
 var app = express.createServer();
 
 app.use(express.static(path.join(__dirname, 'static')));
 app.use(express.bodyParser());
 app.use(express.cookieParser());
-app.use(express.session({secret: COOKIE_SECRET}));
+app.use(express.session({secret: config.cookieSecret}));
 
 app.post('/login/authenticate', function(req, res) {
   if (!req.body || !req.body['assertion'])
     return res.send({message: 'assertion expected'}, 400);
-  var uri = 'https://browserid.org:443/verify';
-  var audience = 'localhost';
+  var uri = config.browserid;
+  var audience = config.hostname;
   var assertion = req.body['assertion'];
   browserid.verify(uri, assertion, audience, function(err, verifierResponse) {
     if (err) {
@@ -38,7 +38,7 @@ app.use(function(req, res, next) {
   return next();
 });
 
-app.wwwDir = path.join(__dirname, 'www');
+app.wwwDir = config.wwwDir;
 app.wwwMiddleware = express.static(app.wwwDir);
 app.use(function(req, res, next) {
   var p = path.normalize(req.path);
