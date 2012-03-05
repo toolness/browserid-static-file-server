@@ -6,7 +6,7 @@ var express = require('express'),
     fs = require('fs'),
     config = require('./config.js');
 
-var app = express.createServer();
+var app = express.createServer(config.https);
 
 app.use(express.static(path.join(__dirname, 'static')));
 app.use(express.bodyParser());
@@ -65,3 +65,8 @@ app.use(function(req, res, next) {
 });
 
 module.exports = app;
+
+if (!module.parent) {
+  console.log("listening on", config.hostname + ":" + config.port);
+  app.listen(config.port);
+}
