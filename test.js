@@ -70,6 +70,21 @@ suite
         assert.equal(req.body, "this is foo");
       })
       .unpath()
+    .path('/example-only/../example-only/foo.html')
+      .get()
+      .expect(200)
+      .unpath()
+    .path('/meh')
+      .get()
+      .expect(404)
+      .expect("body is 'Not Found'", function(err, req) {
+        assert.equal(req.body, "Not Found");
+      })
+      .unpath()
+    .path('/../test.js')
+      .get()
+      .expect(403)
+      .unpath()
     .path('/example-only/nonexistent.html')
       .get()
       .expect(404)
