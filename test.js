@@ -83,9 +83,9 @@ suite
       .unpath()
     .path('/nonexistent')
       .get()
-      .expect(404)
-      .expect("body is 'Not Found'", function(err, req) {
-        assert.equal(req.body, "Not Found");
+      .expect(403)
+      .expect("body is forbidden", function(err, req) {
+        assert.equal(req.body, 'Permission denied! Try <a href="/login/">logging in</a>.');
       })
       .unpath()
     .path('/../test.js')
@@ -98,7 +98,7 @@ suite
       .unpath()
     .path('/nonexistent-directory/bar.html')
       .get()
-      .expect(404)
+      .expect(403)
       .unpath()
     .path('/another-example-only')
       .get()
@@ -109,6 +109,6 @@ suite
       .expect(403)
     .path('/another-example-only/nonexistent')
       .get()
-      .expect(404);
+      .expect(403);
 
 suite.export(module);
