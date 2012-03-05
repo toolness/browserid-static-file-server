@@ -1,0 +1,15 @@
+{ "name": "browserid-static-file-server"
+, "description": "static file server w/ permissions via browserid"
+, "version": "0.1.0"
+, "private": true
+, "scripts" :
+  { "test" : "vows --spec --isolate" }
+, "dependencies":
+  { "api-easy": "0.3.3"
+  , "express": "2.5.x"
+  , "request": "2.9.x"
+  , "up": "0.1.x"
+  }
+, "engines":
+  { "node":  "*" }
+}
