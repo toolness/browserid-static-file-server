@@ -53,18 +53,25 @@ app.use(function(req, res, next) {
     } else {
       dirname = path.dirname(filename);
     }
-    var browseridaccess = path.join(dirname, '.browseridaccess');
-    fs.readFile(browseridaccess, 'utf-8', function(err, emails) {
-      if (err) {
-        if (err.code == 'ENOENT')
-          return res.send(FORBIDDEN_HTML, 403);
-        throw err;
-      }
-      emails = emails.split('\n');
-      if (emails.indexOf(req.session.email) == -1)
+    
+    function checkAccess(dirname) {
+      if (dirname.indexOf(app.wwwDir) != 0)
         return res.send(FORBIDDEN_HTML, 403);
-      return app.wwwMiddleware(req, res, next);
-    });
+      var browseridaccess = path.join(dirname, '.browseridaccess');
+      fs.readFile(browseridaccess, 'utf-8', function(err, emails) {
+        if (err) {
+          if (err.code == 'ENOENT')
+            return checkAccess(path.dirname(dirname));
+          throw err;
+        }
+        emails = emails.split('\n');
+        if (emails.indexOf(req.session.email) == -1)
+          return res.send(FORBIDDEN_HTML, 403);
+        return app.wwwMiddleware(req, res, next);
+      });
+    }
+    
+    checkAccess(dirname);
   });
 });
 

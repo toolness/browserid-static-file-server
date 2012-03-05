@@ -70,6 +70,13 @@ suite
         assert.equal(req.body, "this is foo");
       })
       .unpath()
+    .path('/example-only/subdir/another-foo.html')
+      .get()
+      .expect(200)
+      .expect("body is 'this is another foo'", function(err, req) {
+        assert.equal(req.body, "this is another foo");
+      })
+      .unpath()
     .path('/example-only/../example-only/foo.html')
       .get()
       .expect(200)
