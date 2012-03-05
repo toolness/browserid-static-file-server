@@ -43,19 +43,28 @@ app.wwwMiddleware = express.static(app.wwwDir);
 app.use(function(req, res, next) {
   var p = path.normalize(req.path);
   var filename = path.join(app.wwwDir, p);
-  var dirname = path.dirname(filename);
-  var browseridaccess = path.join(dirname, '.browseridaccess');
+  var dirname;
   
-  fs.readFile(browseridaccess, 'utf-8', function(err, emails) {
-    if (err) {
-      if (err.code == 'ENOENT')
-        return res.send(FORBIDDEN_HTML, 403);
-      throw err;
+  fs.stat(filename, function(err, stats) {
+    if (err)
+      return res.send("Not Found", 404);
+    if (stats.isDirectory()) {
+      dirname = filename;
+    } else {
+      dirname = path.dirname(filename);
     }
-    emails = emails.split('\n');
-    if (emails.indexOf(req.session.email) == -1)
-      return res.send(FORBIDDEN_HTML, 403);
-    return app.wwwMiddleware(req, res, next);
+    var browseridaccess = path.join(dirname, '.browseridaccess');
+    fs.readFile(browseridaccess, 'utf-8', function(err, emails) {
+      if (err) {
+        if (err.code == 'ENOENT')
+          return res.send(FORBIDDEN_HTML, 403);
+        throw err;
+      }
+      emails = emails.split('\n');
+      if (emails.indexOf(req.session.email) == -1)
+        return res.send(FORBIDDEN_HTML, 403);
+      return app.wwwMiddleware(req, res, next);
+    });
   });
 });
 
