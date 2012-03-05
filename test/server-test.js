@@ -1,9 +1,9 @@
 const PORT = 3001;
 
-var app = require('./app.js'),
+var app = require('../app.js'),
     APIeasy = require('api-easy'),
     assert = require('assert'),
-    browserid = require('./browserid.js'),
+    browserid = require('../browserid.js'),
     express = require('express'),
     path = require('path');
 

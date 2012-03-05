@@ -3,7 +3,7 @@
 , "version": "0.1.0"
 , "private": true
 , "scripts" :
-  { "test" : "vows --spec --isolate" }
+  { "test" : "node_modules/api-easy/node_modules/.bin/vows --spec --isolate" }
 , "dependencies":
   { "api-easy": "0.3.3"
   , "express": "2.5.x"
