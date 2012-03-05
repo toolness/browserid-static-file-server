@@ -6,7 +6,8 @@ var express = require('express'),
     fs = require('fs'),
     config = require('./config.js');
 
-var app = express.createServer(config.https);
+var app = config.https ? express.createServer(config.https) :
+                         express.createServer();
 
 app.use(express.static(path.join(__dirname, 'static')));
 app.use(express.bodyParser());
