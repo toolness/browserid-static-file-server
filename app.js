@@ -39,14 +39,12 @@ app.use(function(req, res, next) {
   return next();
 });
 
-app.wwwDir = config.wwwDir;
-app.wwwMiddleware = express.static(app.wwwDir);
 app.use(function(req, res, next) {
   var p = path.normalize(req.path);
-  var filename = path.join(app.wwwDir, p);
+  var filename = path.join(config.wwwDir, p);
   
   function checkAccess(dirname) {
-    if (dirname.indexOf(app.wwwDir) != 0)
+    if (dirname.indexOf(config.wwwDir) != 0)
       return res.send(FORBIDDEN_HTML, 403);
     var browseridaccess = path.join(dirname, '.browseridaccess');
     fs.readFile(browseridaccess, 'utf-8', function(err, emails) {
@@ -58,12 +56,13 @@ app.use(function(req, res, next) {
       emails = emails.split('\n');
       if (emails.indexOf(req.session.email) == -1)
         return res.send(FORBIDDEN_HTML, 403);
-      return app.wwwMiddleware(req, res, next);
+      return next();
     });
   }
   
   checkAccess(filename);
 });
+app.use(express.static(config.wwwDir));
 
 module.exports = app;
 

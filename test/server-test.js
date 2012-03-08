@@ -1,11 +1,15 @@
 const PORT = 3001;
 
+var config = require('../config.js'),
+    path = require('path');
+
+config.wwwDir = path.join(__dirname, 'www-test');
+
 var app = require('../app.js'),
     APIeasy = require('api-easy'),
     assert = require('assert'),
     browserid = require('../browserid.js'),
-    express = require('express'),
-    path = require('path');
+    express = require('express');
 
 app.listen(PORT);
 
@@ -37,9 +41,6 @@ suite._requestFormData = function(method, data) {
 suite.postFormData = function(data) {
   return this._requestFormData('post', data);
 };
-
-app.wwwDir = path.join(__dirname, 'www-test');
-app.wwwMiddleware = express.static(app.wwwDir);
 
 suite
   .use('localhost', PORT).followRedirect(false)
