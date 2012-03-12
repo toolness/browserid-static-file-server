@@ -11,6 +11,10 @@ var app = require('../app.js'),
     browserid = require('../browserid.js'),
     express = require('express');
 
+function appURL(path) {
+  return 'http://localhost:' + PORT + path;
+}
+
 app.listen(PORT);
 
 browserid.verify = function(url, assertion, audience, cb) {
@@ -25,7 +29,7 @@ var suite = APIeasy.describe("server");
 suite.expectRedirectTo = function(path) {
   return this.expect(302)
     .expect('redirects to ' + path, function(err, res) {
-      assert.equal(res.headers['location'], path);
+      assert.equal(res.headers['location'], appURL(path));
     });
 };
 

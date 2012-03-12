@@ -31,11 +31,8 @@ app.post('/login/authenticate', function(req, res) {
 
 app.use(function(req, res, next) {
   var p = path.normalize(req.path);
-  if (!req.session.email) {
-    res.setHeader('Location', '/login/?redirect=' + encodeURIComponent(p));
-    res.statusCode = 302;
-    return res.end();
-  }
+  if (!req.session.email)
+    return res.redirect('/login/?redirect=' + encodeURIComponent(p));
   return next();
 });
 
