@@ -1,10 +1,16 @@
-const FORBIDDEN_HTML = 'Permission denied! Try <a href="/login/">logging in</a>.';
-
 var express = require('express'),
     path = require('path'),
     browserid = require('./browserid.js'),
     fs = require('fs'),
-    config = require('./config.js');
+    config = require('./config.js'),
+    url = require('url');
+
+function resolve(absPath) {
+  return url.resolve(config.baseURL || '/', absPath.slice(1));
+}
+
+const FORBIDDEN_HTML = 'Permission denied! Try <a href="' +
+                       resolve('/login/') + '">logging in</a>.';
 
 var app = config.https ? express.createServer(config.https) :
                          express.createServer();
@@ -30,7 +36,7 @@ app.post('/login/authenticate', function(req, res) {
 });
 
 app.use(function(req, res, next) {
-  var p = path.normalize(req.path);
+  var p = resolve(path.normalize(req.path));
   if (!req.session.email)
     return res.redirect('/login/?redirect=' + encodeURIComponent(p));
   return next();

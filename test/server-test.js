@@ -4,6 +4,7 @@ var config = require('../config.js'),
     path = require('path');
 
 config.wwwDir = path.join(__dirname, 'www-test');
+config.baseURL = '/';
 
 var app = require('../app.js'),
     APIeasy = require('api-easy'),
