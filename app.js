@@ -72,5 +72,5 @@ module.exports = app;
 
 if (!module.parent) {
   console.log("listening on", config.hostname + ":" + config.port);
-  app.listen(config.port);
+  app.listen(config.port, config.hostname);
 }
