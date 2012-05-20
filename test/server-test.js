@@ -5,6 +5,7 @@ var config = require('../config.js'),
 
 config.wwwDir = path.join(__dirname, 'www-test');
 config.baseURL = '/';
+config.https = null;
 
 var app = require('../app.js'),
     APIeasy = require('api-easy'),
