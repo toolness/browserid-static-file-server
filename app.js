@@ -38,7 +38,8 @@ app.post('/login/authenticate', function(req, res) {
 app.use(function(req, res, next) {
   var p = resolve(path.normalize(req.path));
   if (!req.session.email)
-    return res.redirect('/login/?redirect=' + encodeURIComponent(p));
+    return res.redirect(resolve('/login/') + '?redirect=' +
+                        encodeURIComponent(p));
   return next();
 });
 
