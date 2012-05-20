@@ -24,7 +24,7 @@ app.post('/login/authenticate', function(req, res) {
   if (!req.body || !req.body['assertion'])
     return res.send({message: 'assertion expected'}, 400);
   var uri = config.browserid;
-  var audience = config.hostname;
+  var audience = config.audience;
   var assertion = req.body['assertion'];
   browserid.verify(uri, assertion, audience, function(err, verifierResponse) {
     if (err) {

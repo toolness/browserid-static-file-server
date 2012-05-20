@@ -2,8 +2,9 @@ var path = require('path');
 
 module.exports = {
   cookieSecret: "lolwut",
-  hostname: "localhost",
+  audience: "localhost",
   browserid: "https://browserid.org:443/verify",
   wwwDir: path.join(__dirname, 'www'),
-  port: 8010
+  port: 8010,
+  hostname: "localhost"
 };
