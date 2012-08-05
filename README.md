@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/toolness/browserid-static-file-server.png?branch=master)](http://travis-ci.org/toolness/browserid-static-file-server)
+
 This is a very simple static file server that limits access on a per-directory basis to users with certain email addresses, verifiable by BrowserID.
 
 Any directory can contain a `.browseridaccess` file which is simply a list of email addresses, delimited by newlines. Only the email addresses listed in this file can access the directory and its subdirectories (unless those subdirectories themselves contain `.browseridaccess` files).
