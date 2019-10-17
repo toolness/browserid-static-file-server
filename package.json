@@ -7,7 +7,7 @@
 , "dependencies":
   { "api-easy": "0.3.3"
   , "express": "2.5.x"
-  , "request": "2.9.x"
+  , "request": "2.88.x"
   , "up": "0.1.x"
   }
 , "engines":
